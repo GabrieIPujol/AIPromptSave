@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PromptService } from '../services/prompt.service';
-import { Prompt } from '../models/prompt.model';
 
 @Component({
   selector: 'app-listar-prompts',
@@ -8,7 +7,7 @@ import { Prompt } from '../models/prompt.model';
   styleUrls: ['./listar-prompts.component.css']
 })
 export class ListarPromptsComponent implements OnInit {
-  prompts: Prompt[] = [];
+  prompts: any[] = [];
   erro: string = '';
   mensagem: string = '';
 
