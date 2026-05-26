@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Prompt } from './prompt.model';
+import { Prompt } from '../models/prompt.model';
 
 @Injectable({
   providedIn: 'root'

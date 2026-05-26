@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PromptService } from '../prompt.service';
+import { PromptService } from '../services/prompt.service';
 
 @Component({
   selector: 'app-form-prompt',

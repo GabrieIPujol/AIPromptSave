@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PromptService } from '../prompt.service';
-import { Prompt } from '../prompt.model';
+import { PromptService } from '../services/prompt.service';
+import { Prompt } from '../models/prompt.model';
 
 @Component({
   selector: 'app-listar-prompts',
