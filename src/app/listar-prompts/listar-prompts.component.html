@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Meus Prompts</h2>
+
+  <div *ngIf="mensagem" style="color: green;">{{ mensagem }}</div>
+  <div *ngIf="erro" style="color: red;">{{ erro }}</div>
+
+  <a mat-raised-button color="primary" routerLink="/prompts/novo">+ Novo Prompt</a>
+
+  <ul *ngIf="prompts.length > 0; else nenhumPrompt">
+    <li *ngFor="let prompt of prompts">
+      <strong>{{ prompt.titulo }}</strong> - {{ prompt.ia }}
+      <br>
+      <small>{{ prompt.texto }}</small>
+      <br>
+      <button (click)="deletarPrompt(prompt.id)">Excluir</button>
+    </li>
+  </ul>
+
+  <ng-template #nenhumPrompt>
+    <p>Nenhum prompt cadastrado ainda.</p>
+  </ng-template>
+</div>
