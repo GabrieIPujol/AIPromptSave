@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Novo Prompt</h2>
+
+  <div *ngIf="mensagem" style="color: green;">{{ mensagem }}</div>
+  <div *ngIf="erro" style="color: red;">{{ erro }}</div>
+
+  <div class="campo">
+    <label>Título:</label>
+    <input type="text" [(ngModel)]="prompt.titulo" placeholder="Ex: Remover fundo de imagem">
+  </div>
+
+  <div class="campo">
+    <label>IA:</label>
+    <select [(ngModel)]="prompt.ia">
+      <option value="">Selecione a IA</option>
+      <option value="ChatGPT">ChatGPT</option>
+      <option value="Gemini">Gemini</option>
+      <option value="Claude">Claude</option>
+      <option value="Copilot">Copilot</option>
+    </select>
+  </div>
+
+  <div class="campo">
+    <label>Prompt:</label>
+    <textarea [(ngModel)]="prompt.texto" placeholder="Escreva o prompt aqui..." rows="5"></textarea>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+  <a mat-button routerLink="/prompts">Cancelar</a>
+</div>
