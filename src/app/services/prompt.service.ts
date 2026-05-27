@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromptService {
-  private chave = 'prompts';
+  private apiUrl = 'http://localhost:3000/api/prompts';
+
+  constructor(private http: HttpClient) {}
 
   listar() {
-    const dados = localStorage.getItem(this.chave);
-    return dados ? JSON.parse(dados) : [];
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  buscarPorId(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
   salvar(prompt: any) {
-    const lista = this.listar();
-    lista.push(prompt);
-    localStorage.setItem(this.chave, JSON.stringify(lista));
+    return this.http.post<any>(this.apiUrl, prompt);
   }
 
-  deletar(id: any) {
-    const lista = this.listar().filter((p: any) => p.id !== id);
-    localStorage.setItem(this.chave, JSON.stringify(lista));
+  atualizar(id: number, prompt: any) {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, prompt);
+  }
+
+  deletar(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,18 +1,15 @@
 <mat-toolbar color="primary">
-  <span class="toolbar-brand">
+  <a class="toolbar-brand" routerLink="/">
     <mat-icon>psychology</mat-icon>
     AI Prompt Save
-  </span>
+  </a>
   <span class="spacer"></span>
-  <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
-    <mat-icon>home</mat-icon> Home
-  </a>
-  <a mat-button routerLink="/sobre" routerLinkActive="active-link">
-    <mat-icon>info</mat-icon> Sobre
-  </a>
-  <a mat-button routerLink="/prompts" routerLinkActive="active-link">
-    <mat-icon>list</mat-icon> Meus Prompts
-  </a>
+  <a mat-button routerLink="/" routerLinkActive="nav-active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+  <a mat-button routerLink="/sobre" routerLinkActive="nav-active">Sobre</a>
+  <button mat-icon-button (click)="toggleTheme()" [title]="darkMode ? 'Modo claro' : 'Modo escuro'">
+    <mat-icon>{{ darkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+  <a mat-raised-button routerLink="/prompts" routerLinkActive="nav-active">Meus Prompts</a>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

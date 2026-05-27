@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'home', redirectTo: '', pathMatch: 'full' },
   { path: 'sobre', component: SobreComponent },
   { path: 'prompts', component: ListarPromptsComponent },
-  { path: 'prompts/novo', component: FormPromptComponent }
+  { path: 'prompts/novo', component: FormPromptComponent },
+  { path: 'prompts/editar/:id', component: FormPromptComponent }
 ];
 
 @NgModule({

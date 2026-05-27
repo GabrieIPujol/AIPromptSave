@@ -18,14 +18,21 @@ export class ListarPromptsComponent implements OnInit {
   }
 
   carregarPrompts() {
-    this.prompts = this.promptService.listar();
+    this.promptService.listar().subscribe({
+      next: (res) => this.prompts = res,
+      error: () => this.erro = 'Erro ao carregar os prompts.'
+    });
   }
 
   deletarPrompt(id: number) {
     if (confirm('Tem certeza que deseja excluir este prompt?')) {
-      this.promptService.deletar(id);
-      this.mensagem = 'Prompt excluído com sucesso.';
-      this.carregarPrompts();
+      this.promptService.deletar(id).subscribe({
+        next: () => {
+          this.mensagem = 'Prompt excluído com sucesso.';
+          this.carregarPrompts();
+        },
+        error: () => this.mensagem = 'Erro ao excluir prompt.'
+      });
     }
   }
 }

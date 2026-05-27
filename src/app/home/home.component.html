@@ -1,6 +1,17 @@
-<div class="container">
-  <mat-icon class="icone-principal">psychology</mat-icon>
-  <h1>{{ titulo }}</h1>
-  <p>{{ descricao }}</p>
-  <a mat-raised-button color="primary" routerLink="/prompts">Ver Meus Prompts</a>
-</div>
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Organize seus prompts
+    </div>
+    <h1 class="hero-title">Salve os prompts<br>que funcionam</h1>
+    <p class="hero-subtitle">
+      Centralize seus melhores prompts para ChatGPT, Gemini, Claude e mais.<br>
+      Nunca perca uma ideia que funcionou.
+    </p>
+    <div class="hero-actions">
+      <a mat-raised-button color="primary" routerLink="/prompts/novo">Criar prompt</a>
+      <a mat-button routerLink="/prompts">Ver todos →</a>
+    </div>
+  </div>
+</section>
