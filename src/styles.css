@@ -70,10 +70,6 @@ html, body {
   --shadow-md: 0 2px 4px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.35);
 }
 
-[data-theme="dark"] body {
-  background: #0f172a;
-}
-
 /* Toolbar no dark */
 [data-theme="dark"] .mat-toolbar {
   background: #1e293b !important;

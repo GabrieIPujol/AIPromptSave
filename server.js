@@ -1,23 +1,33 @@
+// =============================================================
+// BACKEND - servidor Express com banco de dados SQLite (sql.js)
+// Roda em: http://localhost:3000
+// =============================================================
+
 const express = require('express');
 const cors = require('cors');
-const initSqlJs = require('sql.js');
+const initSqlJs = require('sql.js'); // SQLite rodando dentro do Node.js (sem instalação nativa)
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(cors());         // Permite requisições do Angular (localhost:4200) para cá (localhost:3000)
+app.use(express.json()); // Permite ler o corpo das requisições como JSON
 
+// Caminho do arquivo físico do banco de dados (gerado na raiz do projeto)
 const DB_PATH = path.join(__dirname, 'prompts.db');
 
-let db;
+let db; // Instância do banco de dados em memória
 
+// Persiste o banco em memória para o arquivo prompts.db no disco
 function salvarDb() {
   const data = db.export();
   fs.writeFileSync(DB_PATH, Buffer.from(data));
 }
 
+// Inicializa o sql.js e só depois define as rotas (precisa do banco pronto)
 initSqlJs().then((SQL) => {
+
+  // Se o arquivo de banco já existe, carrega ele; senão, cria um banco novo
   if (fs.existsSync(DB_PATH)) {
     const fileBuffer = fs.readFileSync(DB_PATH);
     db = new SQL.Database(fileBuffer);
@@ -25,6 +35,8 @@ initSqlJs().then((SQL) => {
     db = new SQL.Database();
   }
 
+  // Cria a tabela "prompts" caso ainda não exista
+  // Campos: id (chave primária), titulo, texto, ia e a data de criação automática
   db.run(`
     CREATE TABLE IF NOT EXISTS prompts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,18 +47,24 @@ initSqlJs().then((SQL) => {
     )
   `);
 
-  salvarDb();
+  salvarDb(); // Salva após garantir que a tabela existe
 
+  // -------------------------------------------------------
+  // GET /api/prompts — Lista todos os prompts (mais recentes primeiro)
+  // -------------------------------------------------------
   app.get('/api/prompts', (req, res) => {
     const stmt = db.prepare('SELECT * FROM prompts ORDER BY id DESC');
     const prompts = [];
     while (stmt.step()) {
-      prompts.push(stmt.getAsObject());
+      prompts.push(stmt.getAsObject()); // Cada linha vira um objeto JS
     }
-    stmt.free();
+    stmt.free(); // Libera o statement para não vazar memória
     res.json(prompts);
   });
 
+  // -------------------------------------------------------
+  // GET /api/prompts/:id — Busca um prompt específico pelo ID
+  // -------------------------------------------------------
   app.get('/api/prompts/:id', (req, res) => {
     const stmt = db.prepare('SELECT * FROM prompts WHERE id = ?');
     stmt.bind([Number(req.params.id)]);
@@ -58,13 +76,19 @@ initSqlJs().then((SQL) => {
     stmt.free();
   });
 
+  // -------------------------------------------------------
+  // POST /api/prompts — Cria um novo prompt
+  // Body esperado: { titulo, texto, ia }
+  // -------------------------------------------------------
   app.post('/api/prompts', (req, res) => {
     const { titulo, texto, ia } = req.body;
     if (!titulo || !texto || !ia) {
       return res.status(400).json({ erro: 'Preencha todos os campos.' });
     }
     db.run('INSERT INTO prompts (titulo, texto, ia) VALUES (?, ?, ?)', [titulo, texto, ia]);
-    salvarDb();
+    salvarDb(); // Persiste no arquivo após inserção
+
+    // Retorna o registro recém-criado
     const stmt = db.prepare('SELECT * FROM prompts ORDER BY id DESC LIMIT 1');
     stmt.step();
     const novo = stmt.getAsObject();
@@ -72,13 +96,19 @@ initSqlJs().then((SQL) => {
     res.status(201).json(novo);
   });
 
+  // -------------------------------------------------------
+  // PUT /api/prompts/:id — Atualiza um prompt existente
+  // Body esperado: { titulo, texto, ia }
+  // -------------------------------------------------------
   app.put('/api/prompts/:id', (req, res) => {
     const { titulo, texto, ia } = req.body;
     if (!titulo || !texto || !ia) {
       return res.status(400).json({ erro: 'Preencha todos os campos.' });
     }
     db.run('UPDATE prompts SET titulo = ?, texto = ?, ia = ? WHERE id = ?', [titulo, texto, ia, Number(req.params.id)]);
-    salvarDb();
+    salvarDb(); // Persiste no arquivo após atualização
+
+    // Retorna o registro atualizado
     const stmt = db.prepare('SELECT * FROM prompts WHERE id = ?');
     stmt.bind([Number(req.params.id)]);
     if (stmt.step()) {
@@ -89,12 +119,16 @@ initSqlJs().then((SQL) => {
     stmt.free();
   });
 
+  // -------------------------------------------------------
+  // DELETE /api/prompts/:id — Remove um prompt pelo ID
+  // -------------------------------------------------------
   app.delete('/api/prompts/:id', (req, res) => {
     db.run('DELETE FROM prompts WHERE id = ?', [Number(req.params.id)]);
-    salvarDb();
+    salvarDb(); // Persiste no arquivo após exclusão
     res.json({ mensagem: 'Prompt excluído com sucesso.' });
   });
 
-  const PORT = 3000;
+  // Render exige que o servidor escute na variável PORT do ambiente
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => console.log(`Backend rodando em http://localhost:${PORT}`));
 });

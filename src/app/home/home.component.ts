@@ -1,3 +1,9 @@
+// =============================================================
+// HomeComponent — Página inicial (rota: "/")
+// Exibe um hero com título, descrição e botões de ação rápida
+// Não depende de nenhum serviço — apenas dados estáticos
+// =============================================================
+
 import { Component } from '@angular/core';
 
 @Component({
