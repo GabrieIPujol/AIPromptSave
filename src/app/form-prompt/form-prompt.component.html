@@ -16,10 +16,7 @@
       <mat-label>IA</mat-label>
       <mat-select [(ngModel)]="prompt.ia" name="ia">
         <mat-option value="">Selecione a IA</mat-option>
-        <mat-option value="ChatGPT">ChatGPT</mat-option>
-        <mat-option value="Gemini">Gemini</mat-option>
-        <mat-option value="Claude">Claude</mat-option>
-        <mat-option value="Copilot">Copilot</mat-option>
+        <mat-option *ngFor="let ia of ias" [value]="ia.nome">{{ ia.nome }}</mat-option>
       </mat-select>
     </mat-form-field>
 

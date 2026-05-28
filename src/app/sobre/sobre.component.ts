@@ -16,7 +16,7 @@ export class SobreComponent {
   descricao = 'O AI Prompt Save é um aplicativo para salvar e organizar prompts de inteligência artificial. Chega de perder aquele prompt perfeito que você criou!';
 
   // Lista de tecnologias exibida na página
-  tecnologias = ['Angular 16', 'Angular Material', 'TypeScript', 'LocalStorage'];
+  tecnologias = ['Angular 16', 'Angular Material', 'TypeScript', 'Node.js', 'SQLite'];
 
-  autor = 'Enzo Bariotto';
+  autores = ['Enzo Bariotto', 'Stephany Silva', 'Gabriel Pujol'];
 }

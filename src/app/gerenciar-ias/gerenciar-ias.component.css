@@ -1,0 +1,73 @@
+.page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.toast {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.toast-success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.toast-error {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+.add-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.campo {
+  flex: 1;
+}
+
+.ia-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ia-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.ia-nome {
+  font-size: 15px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.vazio {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 40px 0;
+}

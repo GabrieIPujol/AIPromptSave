@@ -28,6 +28,7 @@ import { HomeComponent } from './home/home.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { ListarPromptsComponent } from './listar-prompts/listar-prompts.component';
 import { FormPromptComponent } from './form-prompt/form-prompt.component';
+import { GerenciarIasComponent } from './gerenciar-ias/gerenciar-ias.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { FormPromptComponent } from './form-prompt/form-prompt.component';
     HomeComponent,
     SobreComponent,
     ListarPromptsComponent,
-    FormPromptComponent
+    FormPromptComponent,
+    GerenciarIasComponent
   ],
   imports: [
     // Módulos externos e do Angular que os componentes utilizam

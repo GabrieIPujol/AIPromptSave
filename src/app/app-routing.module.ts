@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { ListarPromptsComponent } from './listar-prompts/listar-prompts.component';
 import { FormPromptComponent } from './form-prompt/form-prompt.component';
+import { GerenciarIasComponent } from './gerenciar-ias/gerenciar-ias.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },                           // "/" → Página inicial
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'sobre', component: SobreComponent },                    // "/sobre" → Página sobre
   { path: 'prompts', component: ListarPromptsComponent },          // "/prompts" → Lista de prompts
   { path: 'prompts/novo', component: FormPromptComponent },        // "/prompts/novo" → Criar prompt
-  { path: 'prompts/editar/:id', component: FormPromptComponent }   // "/prompts/editar/5" → Editar prompt (id=5)
+  { path: 'prompts/editar/:id', component: FormPromptComponent },   // "/prompts/editar/5" → Editar prompt (id=5)
+  { path: 'ias', component: GerenciarIasComponent }                // "/ias" → Gerenciar IAs
   // O FormPromptComponent é reutilizado para criar E editar — ele detecta o :id na URL
 ];
 

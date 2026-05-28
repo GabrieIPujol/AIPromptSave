@@ -10,7 +10,9 @@
   </div>
 
   <div class="section">
-    <h2 class="section-title">Autor</h2>
-    <p class="author">{{ autor }}</p>
+    <h2 class="section-title">Autores</h2>
+    <ul class="tech-list">
+      <li *ngFor="let autor of autores" class="tech-item">{{ autor }}</li>
+    </ul>
   </div>
 </div>

@@ -47,7 +47,57 @@ initSqlJs().then((SQL) => {
     )
   `);
 
-  salvarDb(); // Salva após garantir que a tabela existe
+  // Cria a tabela "ias" e popula com os valores padrão se estiver vazia
+  db.run(`
+    CREATE TABLE IF NOT EXISTS ias (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT NOT NULL UNIQUE
+    )
+  `);
+
+  const iaCount = db.exec('SELECT COUNT(*) FROM ias')[0].values[0][0];
+  if (iaCount === 0) {
+    ['ChatGPT', 'Gemini', 'Claude', 'Copilot'].forEach(nome => {
+      db.run('INSERT INTO ias (nome) VALUES (?)', [nome]);
+    });
+  }
+
+  salvarDb();
+
+  // -------------------------------------------------------
+  // GET /api/ias — Lista todas as IAs cadastradas
+  // -------------------------------------------------------
+  app.get('/api/ias', (req, res) => {
+    const stmt = db.prepare('SELECT * FROM ias ORDER BY nome ASC');
+    const ias = [];
+    while (stmt.step()) ias.push(stmt.getAsObject());
+    stmt.free();
+    res.json(ias);
+  });
+
+  // -------------------------------------------------------
+  // POST /api/ias — Cria uma nova IA. Body: { nome }
+  // -------------------------------------------------------
+  app.post('/api/ias', (req, res) => {
+    const { nome } = req.body;
+    if (!nome) return res.status(400).json({ erro: 'Informe o nome da IA.' });
+    try {
+      db.run('INSERT INTO ias (nome) VALUES (?)', [nome.trim()]);
+      salvarDb();
+      res.status(201).json({ mensagem: 'IA cadastrada.' });
+    } catch (e) {
+      res.status(400).json({ erro: 'Essa IA já existe.' });
+    }
+  });
+
+  // -------------------------------------------------------
+  // DELETE /api/ias/:id — Remove uma IA pelo ID
+  // -------------------------------------------------------
+  app.delete('/api/ias/:id', (req, res) => {
+    db.run('DELETE FROM ias WHERE id = ?', [Number(req.params.id)]);
+    salvarDb();
+    res.json({ mensagem: 'IA removida.' });
+  });
 
   // -------------------------------------------------------
   // GET /api/prompts — Lista todos os prompts (mais recentes primeiro)

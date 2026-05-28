@@ -1,0 +1,28 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2 class="page-title">Gerenciar IAs</h2>
+  </div>
+
+  <div *ngIf="mensagem" class="toast toast-success">{{ mensagem }}</div>
+  <div *ngIf="erro" class="toast toast-error">{{ erro }}</div>
+
+  <div class="add-form">
+    <mat-form-field appearance="outline" class="campo">
+      <mat-label>Nome da nova IA</mat-label>
+      <input matInput [(ngModel)]="novaIa" name="novaIa" placeholder="Ex: Mistral">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="adicionar()">
+      <mat-icon>add</mat-icon> Adicionar
+    </button>
+  </div>
+
+  <div class="ia-list">
+    <div class="ia-item" *ngFor="let ia of ias">
+      <span class="ia-nome">{{ ia.nome }}</span>
+      <button mat-icon-button color="warn" (click)="deletar(ia.id)" title="Remover">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <p *ngIf="ias.length === 0" class="vazio">Nenhuma IA cadastrada.</p>
+  </div>
+</div>

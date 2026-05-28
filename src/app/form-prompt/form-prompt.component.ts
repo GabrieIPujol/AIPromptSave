@@ -8,6 +8,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '../services/prompt.service';
+import { IaService } from '../services/ia.service';
 
 @Component({
   selector: 'app-form-prompt',
@@ -17,17 +18,21 @@ import { PromptService } from '../services/prompt.service';
 export class FormPromptComponent implements OnInit {
   // Objeto que faz two-way binding com os campos do formulário via [(ngModel)]
   prompt: any = { titulo: '', texto: '', ia: '' };
+  ias: any[] = [];         // Lista de IAs carregada do banco
   erro: string = '';       // Exibido no template quando campos não estão preenchidos
   editando: boolean = false; // false = modo criação | true = modo edição
   id: number = 0;           // ID do prompt sendo editado (0 quando criando)
 
   constructor(
     private promptService: PromptService,
+    private iaService: IaService,
     private router: Router,       // Para redirecionar após salvar
     private route: ActivatedRoute // Para ler o :id da URL
   ) {}
 
   ngOnInit(): void {
+    this.iaService.listar().subscribe({ next: (res) => this.ias = res });
+
     // Verifica se existe um :id na URL — se sim, entra em modo edição
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
